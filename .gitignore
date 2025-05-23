@@ -1,0 +1,20 @@
+# Системные файлы
+.DS_Store
+
+# Expo
+.expo/
+.expo-shared/
+
+# Android AVD
+.android/
+*.ini
+*.pub
+adbkey
+
+# Личные конфиги
+.gitconfig
+
+# VS Code
+.vscode/
+
+node_modules/
