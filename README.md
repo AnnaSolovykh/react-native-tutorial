@@ -10,7 +10,7 @@ Each folder corresponds to a mini-project, demonstrating core concepts of React 
 
 A basic mobile app where the user selects a number, and the phone tries to guess it. It demonstrates key React Native building blocks, custom components, and simple state logic.
 
-## 🚀 How to Run
+### 🚀 How to Run
 
 1. Clone the repo and navigate into the project:
 
