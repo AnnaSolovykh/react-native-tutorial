@@ -1,4 +1,4 @@
-# React Native Projects (Udemy Course by Maximilian Schwarzmüller)
+# React Native Projects
 
 This repository contains hands-on projects built while following the [React Native - The Practical Guide](https://www.udemy.com/course/react-native-the-practical-guide/) course by Maximilian Schwarzmüller on Udemy.
 
