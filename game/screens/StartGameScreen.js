@@ -1,5 +1,12 @@
 import { useState } from 'react';
 import { TextInput, View, StyleSheet, Alert } from 'react-native';
+import Animated, {
+  FadeIn,
+  SlideInUp,
+  ZoomIn,
+  SlideInLeft,
+  SlideInRight
+} from 'react-native-reanimated';
 
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Title from '../components/ui/Title';
@@ -31,11 +38,18 @@ function StartGameScreen({ onPickNumber }) {
     onPickNumber(chosenNumber);
   }
 
-  return (
-    <View style={styles.rootContainer}>
+return (
+  <View style={styles.rootContainer}>
+    <Animated.View entering={FadeIn.duration(1500)}>
       <Title>Guess My Number</Title>
-      <Card>
+    </Animated.View>
+
+    <Card>
+      <Animated.View entering={SlideInUp.duration(1200)}>
         <InstructionText>Enter a Number</InstructionText>
+      </Animated.View>
+
+      <Animated.View entering={ZoomIn.duration(1000)}>
         <TextInput
           style={styles.numberInput}
           maxLength={2}
@@ -44,20 +58,21 @@ function StartGameScreen({ onPickNumber }) {
           autoCorrect={false}
           onChangeText={numberInputHandler}
           value={enteredNumber}
-          // autoCapitalize="none"
-          // autoCorrect={false}
         />
-        <View style={styles.buttonsContainer}>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
-          </View>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
-          </View>
-        </View>
-      </Card>
-    </View>
-  );
+      </Animated.View>
+
+      <View style={styles.buttonsContainer}>
+        <Animated.View entering={SlideInLeft.duration(1000)} style={styles.buttonContainer}>
+          <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+        </Animated.View>
+        <Animated.View entering={SlideInRight.duration(1000)} style={styles.buttonContainer}>
+          <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
+        </Animated.View>
+      </View>
+    </Card>
+  </View>
+);
+
 }
 
 export default StartGameScreen;
