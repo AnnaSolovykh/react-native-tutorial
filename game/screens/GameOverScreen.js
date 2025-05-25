@@ -1,21 +1,68 @@
+import { useEffect } from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withDelay,
+  withRepeat,
+} from 'react-native-reanimated';
 
 import Title from '../components/ui/Title';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Colors from '../constants/colors';
 
 function GameOverScreen({ roundsNumber, userNumber, onStartNewGame }) {
+  const imageScale = useSharedValue(0.3);
+  const imageRotate = useSharedValue(0); // ⬅ поворот
+  const buttonScale = useSharedValue(0.5);
+  const buttonOpacity = useSharedValue(0);
+
+  useEffect(() => {
+    imageScale.value = withDelay(200, withTiming(1, { duration: 800 }));
+
+    // ⬇ Бесконечное вращение картинки
+    imageRotate.value = withRepeat(
+      withTiming(360, { duration: 3000 }),
+      -1, // -1 = infinite
+      false // не реверс
+    );
+
+    buttonScale.value = withDelay(500, withTiming(1, { duration: 800 }));
+    buttonOpacity.value = withDelay(500, withTiming(1, { duration: 800 }));
+  }, []);
+
+  const imageAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { scale: imageScale.value },
+        { rotate: `${imageRotate.value}deg` }, 
+      ],
+    };
+  });
+
+  const buttonAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: buttonScale.value }],
+      opacity: buttonOpacity.value,
+    };
+  });
+
   return (
     <View style={styles.rootContainer}>
       <Title>GAME OVER!</Title>
-      <View style={styles.imageContainer}>
+
+      <Animated.View style={[styles.imageContainer, imageAnimatedStyle]}>
         <Image style={styles.image} source={require('../assets/images/success.png')} />
-      </View>
+      </Animated.View>
+
       <Text style={styles.summaryText}>
-        Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text> rounds to guess the
-        number <Text style={styles.highlight}>{userNumber}</Text>.
+        Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text> rounds to guess the number <Text style={styles.highlight}>{userNumber}</Text>.
       </Text>
-      <PrimaryButton onPress={onStartNewGame}>Start New Game</PrimaryButton>
+
+      <Animated.View style={buttonAnimatedStyle}>
+        <PrimaryButton onPress={onStartNewGame}>Start New Game</PrimaryButton>
+      </Animated.View>
     </View>
   );
 }
